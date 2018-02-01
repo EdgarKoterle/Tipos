@@ -79,7 +79,7 @@ public class MySQLDatabase {
             {
                 System.out.println("Bet: "+resultSet.getInt("id")+ " user id: "+resultSet.getInt("idu")+" date: "+resultSet.getDate("date"));
                 System.out.println(" > "+resultSet.getInt("bet1")+" "+resultSet.getInt("bet2")+" "+resultSet.getInt("bet3")+" "+resultSet.getInt("bet4")+" "+resultSet.getInt("bet5"));
-                Set bet= new Bet(resultSet.getInt("id"), resultSet.getInt("idu"), resultSet.getDate("date"), resultSet.getInt("bet1"), resultSet.getInt("bet2"), resultSet.getInt("bet3"), resultSet.getInt("bet4"), resultSet.getInt("bet5"));
+                Bet bet= new Bet(resultSet.getInt("id"), resultSet.getInt("idu"), resultSet.getDate("date"), resultSet.getInt("bet1"), resultSet.getInt("bet2"), resultSet.getInt("bet3"), resultSet.getInt("bet4"), resultSet.getInt("bet5"));
                 list.add(bet);
             }
             return list;
