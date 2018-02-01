@@ -1,8 +1,14 @@
 package sk.akademiasovy.tipos.database;
 
+import sk.akademiasovy.tipos.Bet;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class MySQLDatabase {
     private final String url="jdbc:mysql://localhost:3306/";
@@ -62,10 +68,21 @@ public class MySQLDatabase {
         try
         {
             Class.forName(driver).newInstance();
+            List<Bet> list=new ArrayList<>();
             conn = DriverManager.getConnection(url + dbName, userName1, password);
             String cmd="SELECT * FROM bets "+
-                    " INNER JOIN bet_details ON bets.id=bet_details.idb "+
+                    " INNER JOIN bet_detail ON bets.id=bet_detail.idb "+
                     " WHERE bets.draw_id IS NULL";
+            PreparedStatement preparedStatement=conn.prepareStatement(cmd);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            while (resultSet.next())
+            {
+                System.out.println("Bet: "+resultSet.getInt("id")+ " user id: "+resultSet.getInt("idu")+" date: "+resultSet.getDate("date"));
+                System.out.println(" > "+resultSet.getInt("bet1")+" "+resultSet.getInt("bet2")+" "+resultSet.getInt("bet3")+" "+resultSet.getInt("bet4")+" "+resultSet.getInt("bet5"));
+                Set bet= new Bet(resultSet.getInt("id"), resultSet.getInt("idu"), resultSet.getDate("date"), resultSet.getInt("bet1"), resultSet.getInt("bet2"), resultSet.getInt("bet3"), resultSet.getInt("bet4"), resultSet.getInt("bet5"));
+                list.add(bet);
+            }
+            return list;
         }
 
         catch (Exception e)
